@@ -139,11 +139,6 @@
             // cboTipoDocumento
             // 
             this.cboTipoDocumento.FormattingEnabled = true;
-            this.cboTipoDocumento.Items.AddRange(new object[] {
-            "Cédula de Ciudadanía",
-            "Tarjeta de Identidad",
-            "Cédula de Extranjería",
-            "Permiso Especial"});
             this.cboTipoDocumento.Location = new System.Drawing.Point(227, 225);
             this.cboTipoDocumento.Name = "cboTipoDocumento";
             this.cboTipoDocumento.Size = new System.Drawing.Size(342, 23);
@@ -318,6 +313,7 @@
             this.Controls.Add(this.lblPrimerNombre);
             this.Name = "FormularioIngresoPaciente";
             this.Text = "Ingreso Paciente";
+            this.Load += new System.EventHandler(this.FormularioIngresoPaciente_Load);
             ((System.ComponentModel.ISupportInitialize)(this.erpError)).EndInit();
             this.ResumeLayout(false);
             this.PerformLayout();
