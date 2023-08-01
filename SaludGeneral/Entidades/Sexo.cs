@@ -1,4 +1,4 @@
-﻿namespace SaludGeneral
+﻿namespace SaludGeneral.Entidades
 {
     public class Sexo : IMaestro
     {

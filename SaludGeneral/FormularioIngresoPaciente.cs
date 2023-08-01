@@ -1,5 +1,7 @@
 ﻿using System.Configuration;
 using System.Windows.Forms;
+using SaludGeneral.Entidades;
+using SaludGeneral.Repositorio;
 
 namespace SaludGeneral
 {
@@ -23,14 +25,32 @@ namespace SaludGeneral
                     var primerApellido = txtPrimerApellido.Text;
                     var segundoApellido = txtSegundoApellido.Text;
                     var numeroDocumento = txtNumeroDocumento.Text;
-                    var tipoDocumento = cboTipoDocumento.SelectedItem as string;
+                    var tipoDocumento = cboTipoDocumento.SelectedItem as TipoDocumento;
                     var fechaNacimiento = dtpFechaNacimiento.Value;
-                    var sexo = rdbFemenino.Checked ? "Femenino" :
-                               rdbMasculino.Checked ? "Masculino" :
-                               rdbIntersexual.Checked ? "Intersexual" : "No Establecido";
+                    var sexo = rdbFemenino.Checked ? new Sexo { Nombre = "Femenino", Id = (int)Enumeraciones.Sexo.Femenino} :
+                               rdbMasculino.Checked ? new Sexo { Nombre = "Masculino", Id = (int)Enumeraciones.Sexo.Masculino } :
+                               rdbIntersexual.Checked ? new Sexo { Nombre = "Intersexual", Id = (int)Enumeraciones.Sexo.Intersexual } :
+                                                        new Sexo { Nombre = "No Establecido", Id = (int)Enumeraciones.Sexo.NoEstablecido };
                     var titular = chkTitular.Checked ? "Titular" : "No Titular";
                     decimal copago = 0;
                     decimal.TryParse(txtCopago.Text, out copago);
+
+                    Paciente paciente = new Paciente
+                    {
+                        PrimerNombre = primerNombre,
+                        PrimerApellido = primerApellido,
+                        SegundoNombre = segundoNombre,
+                        SegundoApellido = segundoApellido,
+                        NumeroDocumento = numeroDocumento,
+                        TipoDocumento = tipoDocumento,
+                        FechaNacimiento = fechaNacimiento,
+                        Sexo = sexo,
+                        Titular = chkTitular.Checked,
+                        Copago = copago,
+                    };
+
+                    IRepositorioPaciente repositorioPaciente = new RepositorioTextoPaciente();
+                    repositorioPaciente.GuardarPaciente(paciente);
 
                     string mensaje = $"Primer Nombre: {primerNombre}\n" +
                                      $"Segundo Nombre: {segundoNombre}\n" +
@@ -39,7 +59,7 @@ namespace SaludGeneral
                                      $"Número de Documento: {numeroDocumento} \n" +
                                      $"Tipo de Documento: {tipoDocumento}  \n" +
                                      $"Fecha de Nacimiento: {fechaNacimiento.ToString("dd/MM/yyyy")}  \n" +
-                                     $"Sexo: {sexo}  \n" +
+                                     $"Sexo: {sexo.Nombre}  \n" +
                                      $"Titular: {titular}  \n" +
                                      $"Copago: {copago.ToString("C")}";
 
