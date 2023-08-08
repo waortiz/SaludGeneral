@@ -1,4 +1,4 @@
-﻿namespace SaludGeneral.Entidades
+﻿namespace Entidades
 {
     public interface IMaestro
     {

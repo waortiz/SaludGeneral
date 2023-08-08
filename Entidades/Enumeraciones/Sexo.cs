@@ -1,4 +1,4 @@
-﻿namespace SaludGeneral.Enumeraciones
+﻿namespace Entidades.Enumeraciones
 {
     public enum Sexo
     {

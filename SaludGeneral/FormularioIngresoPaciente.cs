@@ -1,17 +1,20 @@
-﻿using System.Configuration;
-using System.Windows.Forms;
-using SaludGeneral.Entidades;
-using SaludGeneral.Repositorio;
+﻿using Entidades;
+using Negocio;
+using Repositorio;
 
 namespace SaludGeneral
 {
     public partial class FormularioIngresoPaciente : Form
     {
         private readonly int MAXIMO_COPAGO = 200000;
+        IRepositorioPaciente repositorioPaciente;
+        INegocioPaciente negocioPaciente;
 
         public FormularioIngresoPaciente()
         {
             InitializeComponent();
+            repositorioPaciente = new RepositorioTextoPaciente();
+            negocioPaciente = new NegocioPaciente(repositorioPaciente);
         }
 
         private void btnGuardar_Click(object sender, EventArgs e)
@@ -27,10 +30,10 @@ namespace SaludGeneral
                     var numeroDocumento = txtNumeroDocumento.Text;
                     var tipoDocumento = cboTipoDocumento.SelectedItem as TipoDocumento;
                     var fechaNacimiento = dtpFechaNacimiento.Value;
-                    var sexo = rdbFemenino.Checked ? new Sexo { Nombre = "Femenino", Id = (int)Enumeraciones.Sexo.Femenino} :
-                               rdbMasculino.Checked ? new Sexo { Nombre = "Masculino", Id = (int)Enumeraciones.Sexo.Masculino } :
-                               rdbIntersexual.Checked ? new Sexo { Nombre = "Intersexual", Id = (int)Enumeraciones.Sexo.Intersexual } :
-                                                        new Sexo { Nombre = "No Establecido", Id = (int)Enumeraciones.Sexo.NoEstablecido };
+                    var sexo = rdbFemenino.Checked ? new Sexo { Nombre = "Femenino", Id = (int)Entidades.Enumeraciones.Sexo.Femenino} :
+                               rdbMasculino.Checked ? new Sexo { Nombre = "Masculino", Id = (int)Entidades.Enumeraciones.Sexo.Masculino } :
+                               rdbIntersexual.Checked ? new Sexo { Nombre = "Intersexual", Id = (int)Entidades.Enumeraciones.Sexo.Intersexual } :
+                                                        new Sexo { Nombre = "No Establecido", Id = (int)Entidades.Enumeraciones.Sexo.NoEstablecido };
                     var titular = chkTitular.Checked ? "Titular" : "No Titular";
                     decimal copago = 0;
                     decimal.TryParse(txtCopago.Text, out copago);
@@ -49,8 +52,7 @@ namespace SaludGeneral
                         Copago = copago,
                     };
 
-                    IRepositorioPaciente repositorioPaciente = new RepositorioTextoPaciente();
-                    repositorioPaciente.GuardarPaciente(paciente);
+                    negocioPaciente.GuardarPaciente(paciente);
 
                     string mensaje = $"Primer Nombre: {primerNombre}\n" +
                                      $"Segundo Nombre: {segundoNombre}\n" +

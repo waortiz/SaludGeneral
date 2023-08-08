@@ -1,6 +1,6 @@
-﻿using SaludGeneral.Entidades;
+﻿using Entidades;
 
-namespace SaludGeneral.Repositorio
+namespace Repositorio
 {
     public abstract class RepositorioPaciente
     {
