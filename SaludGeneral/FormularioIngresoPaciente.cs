@@ -13,7 +13,7 @@ namespace SaludGeneral
         public FormularioIngresoPaciente()
         {
             InitializeComponent();
-            repositorioPaciente = new RepositorioTextoPaciente();
+            repositorioPaciente = new RepositorioPacienteEF();
             negocioPaciente = new NegocioPaciente(repositorioPaciente);
         }
 
@@ -175,11 +175,8 @@ namespace SaludGeneral
 
         private void FormularioIngresoPaciente_Load(object sender, EventArgs e)
         {
-            var tiposDocumento = new List<TipoDocumento>();
-            tiposDocumento.Add(new TipoDocumento() { Id = 1, Nombre = "Cédula de Ciudadanía" });
-            tiposDocumento.Add(new TipoDocumento() { Id = 2, Nombre = "Tarjeta de Identidad" });
-            tiposDocumento.Add(new TipoDocumento() { Id = 3, Nombre = "Cédula de Extranjería" });
-            tiposDocumento.Add(new TipoDocumento() { Id = 4, Nombre = "Permiso Especial" });
+            NegocioMaestro negocio = new NegocioMaestro();
+            var tiposDocumento = negocio.ObtenerTiposDocumento();
 
             cboTipoDocumento.DataSource = tiposDocumento;
             cboTipoDocumento.DisplayMember = "Nombre";
